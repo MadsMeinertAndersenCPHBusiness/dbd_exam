@@ -1,29 +1,27 @@
 package com.example.demo.Model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import org.neo4j.ogm.annotation.NodeEntity;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
-import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Relationship;
+import org.springframework.data.neo4j.core.schema.Relationship;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-
-import static org.neo4j.ogm.annotation.Relationship.INCOMING;
-import static org.neo4j.ogm.annotation.Relationship.OUTGOING;
 
 @NodeEntity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Recipe {
 
     @Id
     @GeneratedValue
-    Long Id;
-
+    Long id;
     String name;
 
-    @Relationship(type = "USED_IN", direction = INCOMING)
+    @Relationship(type = "USED", direction = Relationship.Direction.INCOMING)
     private List<Ingredient> ingredients;
-
 }

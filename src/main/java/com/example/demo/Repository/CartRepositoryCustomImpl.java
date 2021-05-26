@@ -33,7 +33,9 @@ public class CartRepositoryCustomImpl implements CartRepositoryCustom {
     @Override
     public void emptyCart(String userId) {
         var products = getCart(userId);
-        hashOperations.delete(userId, products);
+        redisTemplate.delete(userId);
+        //hashOperations.delete(userId);
+
     }
 
     @Override

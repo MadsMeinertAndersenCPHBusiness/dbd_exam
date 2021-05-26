@@ -11,13 +11,24 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "Invoice")
 public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
+    @Column(name = "address")
     private String address;
+
+    @Column(name = "totalPrice")
     private int totalPrice;
-    private Long user_id;
+
+    @ManyToOne
+    private Users user_id;
+
+    public Invoice(Long id, String address, int totalPrice) {
+        this.id = id;
+        this.address = address;
+        this.totalPrice = totalPrice;
+    }
 }

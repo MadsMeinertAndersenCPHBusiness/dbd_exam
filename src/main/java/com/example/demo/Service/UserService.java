@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -32,6 +33,10 @@ public class UserService {
 
     public boolean deleteUser(int id){
         return userRepositoryCustom.deleteUser(id);
+    }
+
+    public Optional<Users> findOne(Long id){
+        return userRepository.findById(id);
     }
 
 

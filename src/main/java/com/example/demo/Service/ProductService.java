@@ -1,7 +1,9 @@
 package com.example.demo.Service;
 
+import com.example.demo.Model.Ingredient;
 import com.example.demo.Model.Product;
 import com.example.demo.Model.ProductDTO;
+import com.example.demo.Repository.IngredientRepository;
 import com.example.demo.Repository.ProductRepository;
 import com.example.demo.Repository.ProductRepositoryCustom;
 import com.example.demo.Repository.ProductRepositoryCustomImpl;
@@ -23,6 +25,9 @@ public class ProductService {
     @Autowired
     private ProductRepositoryCustomImpl productRepositoryCustom;
 
+    @Autowired
+    private IngredientRepository ingredientRepository;
+
 
 
     public Collection<Product> findAll(){
@@ -33,6 +38,9 @@ public class ProductService {
         return productRepository.findById(id);
     }
     public boolean insertProduct(Product product){
+        Ingredient ingredient = new Ingredient(product.getName());
+        var i = ingredientRepository.merge(product.getName());
+        ingredientRepository.save(i);
         return productRepositoryCustom.insertProduct(product);
     }
     public boolean deleteProduct(int id){

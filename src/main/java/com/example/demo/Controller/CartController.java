@@ -24,4 +24,9 @@ public class CartController {
         return cartService.getCart(userId);
     }
 
+    @PutMapping("/{userId}")
+    public void EmptyCart(@PathVariable String userId){
+        cartService.emptyCart(userId);
+    }
+
 }

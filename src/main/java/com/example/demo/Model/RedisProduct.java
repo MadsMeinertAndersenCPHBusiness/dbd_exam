@@ -9,7 +9,5 @@ import java.io.Serializable;
 @Data
 public class RedisProduct implements Serializable {
 
-    private String id;
-    private String userId;
-    private String name;
+    private String id, userId, name, amount;
 }
