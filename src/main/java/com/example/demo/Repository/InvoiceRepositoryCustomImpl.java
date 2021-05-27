@@ -2,6 +2,7 @@ package com.example.demo.Repository;
 
 import com.example.demo.Model.Invoice;
 import com.example.demo.Model.InvoiceDTO;
+import com.example.demo.Model.InvoiceProductDTO;
 import com.example.demo.Model.ProductDTO;
 import com.example.demo.dbUtility.DbConnection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,38 @@ import java.util.Collection;
 public class InvoiceRepositoryCustomImpl implements InvoiceRepositoryCustom {
     @Autowired
     DbConnection dbConnection = new DbConnection();
+    @Autowired
+    private ProductRepository productRepository;
 
+    @Override
+    public Collection<InvoiceProductDTO> getProducts(Long invoiceId) {
+        Collection<InvoiceProductDTO> invoiceProductDTOS = new ArrayList<>();
+        try (Connection conn = dbConnection.connect()) {
+
+            PreparedStatement stmt = conn.prepareCall("select * from ProductInvoice where invoice_id = " + invoiceId);
+            var result = stmt.executeQuery();
+            while (result.next()) {
+                        var name = productRepository.findById(result.getLong("product_id"));
+                        if (name.isEmpty()){
+                            return null;
+                        }
+                InvoiceProductDTO invoice = new InvoiceProductDTO(
+                        name.get().getName(),
+                        result.getInt("amount"),
+                        result.getInt("totalCost")
+
+                );
+
+                invoiceProductDTOS.add(invoice);
+            }
+        } catch (Exception exception) {
+            System.out.println("An error has occurred.");
+            System.out.println("See full details below.");
+            exception.printStackTrace();
+        }
+        return invoiceProductDTOS;
+
+    }
     @Override
     public Collection<InvoiceDTO> getInvoicesForUser(Long userId) {
         Collection<InvoiceDTO> invoices = new ArrayList<>();
@@ -26,11 +58,16 @@ public class InvoiceRepositoryCustomImpl implements InvoiceRepositoryCustom {
             PreparedStatement stmt = conn.prepareCall("select * from Invoice where user_id = " + userId);
             var result = stmt.executeQuery();
             while (result.next()) {
-                InvoiceDTO invoice = new InvoiceDTO(
+                Invoice invoice = new Invoice(
+                        result.getLong("id"),
                         result.getString("address"),
                         result.getInt("totalPrice")
                 );
-                invoices.add(invoice);
+                var products = getProducts(invoice.getId());
+
+                InvoiceDTO invoiceDTO = new InvoiceDTO(invoice.getAddress(), invoice.getTotalPrice(), products);
+
+                invoices.add(invoiceDTO);
             }
         } catch (Exception exception) {
             System.out.println("An error has occurred.");
@@ -82,4 +119,5 @@ public class InvoiceRepositoryCustomImpl implements InvoiceRepositoryCustom {
         }
         return id;
     }
+
 }

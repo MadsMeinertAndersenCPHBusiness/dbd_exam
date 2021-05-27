@@ -2,6 +2,7 @@ package com.example.demo.Repository;
 
 import com.example.demo.Model.Invoice;
 import com.example.demo.Model.InvoiceDTO;
+import com.example.demo.Model.InvoiceProductDTO;
 import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
@@ -12,4 +13,5 @@ public interface InvoiceRepositoryCustom {
     Collection<InvoiceDTO> getInvoicesForUser(Long userId);
     boolean updateInvoice(Invoice invoice) throws SQLException;
     int createInvoice(Invoice invoice);
+    Collection<InvoiceProductDTO> getProducts(Long invoiceId);
 }

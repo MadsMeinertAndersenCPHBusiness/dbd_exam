@@ -9,8 +9,9 @@ import java.util.Collection;
 
 @Repository
 public interface RecipeRepository extends Neo4jRepository<Recipe, Long> {
-    @Query("MATCH (r:Recipe)<-[u:USED]-(i:Ingredient) return r,u,i")
+    @Query("MATCH (r:Recipe)<-[u:USED_IN]-(i:Ingredient) return r,u,i")
     Collection<Recipe> getAllRecipes();
-
+    //Collection<Recipe>
+    //@Query("MATCH (r:Recipe)<-[u:USED]-(i:Ingredient) return r,u.amount,i")
 
 }

@@ -1,5 +1,6 @@
 package com.example.demo.Service;
 
+import com.example.demo.Model.Amount;
 import com.example.demo.Model.Ingredient;
 import com.example.demo.Model.Recipe;
 import com.example.demo.Repository.IngredientRepository;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Optional;
 
 @Service
 public class RecipeService {
@@ -23,12 +26,17 @@ public class RecipeService {
         return recipeRepository.findAll();
     }
 
-    public void addRecipe(Recipe recipe){
-        var ingredients = new ArrayList<Ingredient>();
-        for (Ingredient i: recipe.getIngredients()) {
-            var newI = ingredientRepository.merge(i.getName());
-            ingredients.add(newI);
-        }
-        recipe.setIngredients(ingredients);
+    public Optional<Recipe> findByName(Long id){
+        return recipeRepository.findById(id);
     }
+
+//    public void addRecipe(Recipe recipe){
+//        Amount amount = new Amount();
+//        var ingredients = new HashMap<Ingredient, Amount>();
+//        for (Ingredient i: recipe.getIngredients().keySet()) {
+//            var newI = ingredientRepository.merge(i.getName());
+//            ingredients.put(newI, amount);
+//        }
+//        recipe.setIngredients(ingredients);
+//    }
 }
