@@ -9,23 +9,18 @@ import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 //import org.neo4j.ogm.annotation.NodeEntity;
 
-import javax.persistence.NamedEntityGraph;
 import java.util.ArrayList;
 import java.util.List;
 
-@Node("Ingredient")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Ingredient {
-    @Id
-    @GeneratedValue
+
     Long id;
 
     String name;
 
-    @Relationship(type = "USED_IN", direction = Relationship.Direction.OUTGOING)
-    private List<Amount> amounts = new ArrayList();
 
     public Ingredient(String name) {
         this.name = name;

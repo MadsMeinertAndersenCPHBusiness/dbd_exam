@@ -19,13 +19,10 @@ public class RecipeController {
     public Collection<Recipe> getAll(){
         return recipeService.getAll();
     }
-    @GetMapping("/{id}")
-    public Optional<Recipe> getById(@PathVariable Long id){
-        return recipeService.findByName(id);
-    }
 
-//    @PostMapping
-//    public void addRecipe(@RequestBody Recipe recipe){
-//        recipeService.addRecipe(recipe);
-//    }
+
+    @PostMapping
+    public void addRecipe(@RequestBody Recipe recipe) throws Exception {
+        recipeService.addRecipe(recipe);
+    }
 }

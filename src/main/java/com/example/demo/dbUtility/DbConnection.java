@@ -55,8 +55,8 @@ public class DbConnection {
     public void runScripts() throws FileNotFoundException, SQLException {
         Flyway flyway = new Flyway(new FluentConfiguration()
                 .baselineOnMigrate(true)
-                .target("4")
-                .dataSource("jdbc:postgresql://localhost:5432/postgres", "user", "password"));
+                .target("5")
+                .dataSource(url, username, password));
         flyway.clean();
         flyway.migrate();
     }
